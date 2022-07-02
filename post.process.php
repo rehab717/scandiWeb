@@ -1,99 +1,59 @@
 <?php
 
-include "classes/dbh.class.php";
-include "classes/posts.class.php";
+include "abstract/base.abstract.php";
+include "classes/main.class.php";
+include "classes/disk.class.php";
+include "classes/furniture.class.php";
+include "classes/book.class.php";
 
-$newObj = new Posts();
+// SANATIZE FUNCTION 
 
-if(isset($_POST['Save']))
+function sanatize($data)
 {
+  $data = trim($data);
+  $data = htmlspecialchars($data);
+  $data = stripslashes($data);
+  return $data;
+}
 
-  if(empty($_POST['SKU']) || empty($_POST['Name']) || empty($_POST['Price']) || empty($_POST['ProductType']) ){
-    if(empty($_POST['SKU'])){
-      $skuError = "Please submit required data";
-    }
-    if(empty($_POST['Name'])){
-      $nameError = "Please submit required data";
-    }
-    if(empty($_POST['Price'])){
-      $priceError = "Please submit required data";
-    }
-    if(empty($_POST['ProductType'])){
-      $typeError = "Please submit required data";
-    }
+// DATA HANDLING
 
+if (isset($_POST["save"])) {
 
-    $valid = array(
-      "skuError" => $skuError,
-      "nameError" => $nameError,
-      "priceError" => $priceError,
-      "typeError" => $typeError,
-    );
+  $InsertData = null;
+  $productType = $_POST["productType"];
+  $Attribute = "";
 
-    $valid_url = http_build_query($valid);
-    header("location:PAindex.php?status=added&".$valid_url);
+  if (!empty($productType)) {
 
-  }else{
+    $availableProducts = ["DVD", "Furniture", "Book"];
 
-    if(!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $_POST['SKU']) || !preg_match('/^[a-zA-z -]*$/', $_POST['Name']) || !preg_match('/^[0-9]*$/', $_POST['Price']) ){
+    if (in_array($productType, $availableProducts)) {
 
-      if(!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $_POST['SKU'])){
-        $skuError= "Invalid input";
+      $InsertData = new $productType(sanatize($_POST['Sku']), sanatize($_POST['firstName']), sanatize($_POST['Price']), sanatize($productType), '');
+      $lisAttribute = $InsertData->getListAttribute();
+
+      foreach ($lisAttribute as $att) {
+        $Attribute .= isset($_POST[$att]) ? " " . $att . ": " . $_POST[$att]. ", " : "";
       }
 
+      $InsertData->setAttribute(sanatize($Attribute));
 
-      if(!preg_match('/^[a-zA-Z -]*$/', $_POST['Name'])){
-        $nameError= "invalid input";
-      }
-
-      if(!preg_match('/^[0-9]*$/', $_POST['Price'])){
-        $priceError =  "Invalid input";
-      }
-
-      $valid = array(
-      "skuError" => $skuError,
-      "nameError" => $nameError,
-      "priceError" => $priceError,
-    );
-
-    $valid_url = http_build_query($valid);
-    header("location:PAindex.php?status=added&".$valid_url);
-
-      } else {
-
-
-    if(isset($_POST['Save']))
-    {
-      $SKU = $_POST['SKU'];
-      $firstname = $_POST['Name'];
-      $theprice = $_POST['Price'];
-      $ProductType= $_POST['ProductType'];
-      $Size= $_POST['Size'];
-      $Height= $_POST['Height'];
-      $Width= $_POST['Width'];
-      $Length= $_POST['Length'];
-      $Weight= $_POST['Weight'];
-
-      $newObj->addPost($SKU, $firstname, $theprice,$ProductType,$Size,$Height,$Width,$Length,$Weight);
-
-      }
+      $InsertData->addPost();
 
       header("location:index.php?status=added");
-  }
-
     }
   }
+}
 
+// DELETING DATA
 
-else if(isset($_POST['delete'])) {
-
-
-    $id = $_POST['ProductID'];
-    $N = count($id);
-    for($i=0; $i < $N; $i++)
-    {
-    $newObj->delPost($id[$i]);
-    }
-    header("location:index.php?status=deleted");
-
+else if (isset($_POST['delete'])) {
+  $InsertData = new ProductMain('', '', '', '', '');
+  $id = $_POST['ProductID'];
+  $N = count($id);
+  for ($i = 0; $i < $N; $i++) {
+    $InsertData->delPost($id[$i]);
   }
+  header("location:index.php?status=deleted");
+}

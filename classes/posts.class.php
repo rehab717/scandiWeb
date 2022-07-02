@@ -1,27 +1,52 @@
 <?php
 
-class Posts extends Dbh {
+include "dbh.class.php";
 
-	public function getPost() {
-	    $sql = "SELECT * FROM prAdd";
-	    $stmt = $this->connect()->prepare($sql);
-	    $stmt->execute();
+class Posts
+{
+    // PROPERTIES AND CONSTRUCTOR
 
-	    while($result = $stmt->fetchAll()) {
-	      return $result;
-	    };
-	  }
+    private $Sku, $Name, $Price, $ProductType, $Attribute;
 
-	public function addPost($SKU, $firstname, $theprice,$ProductType,$Size,$Height,$Width,$Length,$Weight) {
-		$sql = "INSERT INTO prAdd(SKU, Name, Price,ProductType, Size, Height, Width, Length, Weight) VALUES (?,?,?,?,?,?,?,?,?)";
-		$stmt = $this->connect()->prepare($sql);
-		$stmt->execute([$SKU, $firstname, $theprice,$ProductType,$Size,$Height,$Width,$Length,$Weight]);
-	}
+    public function __construct($sku, $name, $price, $productType, $attribute)
+    {
+        $this->Sku = $sku;
+        $this->Name = $name;
+        $this->Price = $price;
+        $this->productType = $productType;
+        $this->Attribute = $attribute;
+    }
 
-	public function delPost($id) {
-	    $sql = "DELETE FROM prAdd WHERE id = ? ";
-	    $stmt = $this->connect()->prepare($sql);
-	    $stmt->execute([$id]);
-	  }
+    // ****CRUD OPERATIONS**** 
 
+    // INSERT FUNCTION
+
+    public function addPost()
+    {
+        $sql = "INSERT INTO pradd2(Sku, firstName, Price, productType, Attribute) VALUES ('" . $this->Sku . "','" . $this->Name . "','" . $this->Price . "','" . $this->ProductType . "','" . $this->Attribute . "')";
+        $stmt = Dbh::connect()->prepare($sql);
+        $stmt->execute();
+    }
+
+    // GET FUNCTION
+
+    public function getPost()
+    {
+        $sql = "SELECT * FROM pradd2";
+        $stmt = Dbh::connect()->prepare($sql);
+        $stmt->execute();
+
+        while ($result = $stmt->fetchAll()) {
+            return $result;
+        };
+    }
+
+    // DELETE FUNCTION
+
+    public function delPost($id)
+    {
+        $sql = "DELETE FROM pradd2 WHERE id = ? ";
+        $stmt = Dbh::connect()->prepare($sql);
+        $stmt->execute([$id]);
+    }
 }

@@ -1,141 +1,95 @@
 <?php
-  require_once("./templates/header.php");
-  include "classes/dbh.class.php";
-  include "classes/posts.class.php";
+require_once "templates/header.php";
+include "post.process.php";
 ?>
 
-<style>
-  .error{
-    color:red;
-  }
-</style>
-
-  <div class="text-left my-5">
-    <h3 class="my-0 mr-md-auto font-weight-normal">PRODUCT ADD</h3>
-  </div>
-    <hr style="width:100%">
-  <div class="row">
-    <div class="col-md-3 mx-auto">
-      <!-- form input -->
-      <form method="POST" action="post.process.php" id = "product_form">
-        <div class="text-right">
-          <button type="submit" value = "insert" name = "Save" class="btn btn-primary">SAVE</button>
-          <a href="index.php" class="btn btn-secondary">CANCEL</a>
-        </div>
-        <form class = "form" id="productType">
-        <div class="form-group">
-          <label>SKU: </label>
-          <input id= "sku" class="form-control" name="SKU" type="text" >
-          <span class = "error"  ><?php if(!empty($_GET['skuError'])){echo $_GET['skuError'];}?></span>
-        </div>
-        <div class="form-group">
-          <label>Name: </label>
-          <input id= "name" class="form-control"  name="Name" type="text" >
-          <span class = "error"  ><?php if(!empty($_GET['nameError'])){echo $_GET['nameError'];}?></span>
-        </div>
-        <div class="form-group">
-          <label>Price: </label>
-          <input id= "price" class="form-control" name="Price" type="float" >
-          <span class = "error"  ><?php if(!empty($_GET['priceError'])){echo $_GET['priceError'];}?></span>
-        </div>
-
-        	<div>
-            <select id="productType" name="ProductType" onchange="yesnoCheck(this);">
-                <option value="">Select</option>
-                <option value="DVD">DVD</option>
-                <option value="Furniture">Furniture</option>
-                <option value="Book">Book</option>
-            </select>
-            <label for="selector">Type Switcher</label><br>
-            <span class = "error"  ><?php if(!empty($_GET['typeError'])){echo $_GET['typeError'];}?></span>
-
-                </div>
-
-        <div id="adc" style="display: none;" class="form-group">
-            <label for="SIZE"><strong>SIZE</strong></label><br/>
-            <input class="form-control" type="number" id="size" name="Size" /><br />
-            <?php
-            echo "Please, input the Size"
-            ?>
-        </div>
-        <div id="pc" style="display: none;" class="form-group">
-            <label for="FURNITURE"><strong>DIMENSION</strong></label><br/>
-            Height (CM): <br/><input class="form-control" type="number" id="height" name="Height" /><br />
-            Width (CM): <br/><input class="form-control" type="number" id="width" name="Width" /><br />
-            Length (CM): <br/><input class="form-control" type="number" id="length" name="Length" /><br />
-            <?php
-            echo "Please, input the Dimensions"
-            ?>
-        </div>
-        <div id="ps" style="display: none;" class="form-group">
-            <label for="WEIGHT"><strong>WEIGHT </strong></label><br/>
-            <input class="form-control" type="number" id="weight" name="Weight" /><br />
-            <?php
-            echo "Please, input the Weight"
-            ?>
-        </div>
-        </form>
+<form id="product_form" action="post.process.php" method="POST">
+  <div class="row my-5">
+    <div class="col-md-6 text-left">
+      <h3>PRODUCT ADD</h3>
+    </div>
+    <div class="col-md-6 text-right">
+      <a href="index.php" class="btn btn-secondary">
+        CANCEL
+      </a>
+      <button type="submit" value="insert" name="save" class="btn btn-primary">
+        SAVE
+      </Button>
     </div>
   </div>
-
-  <script type="text/javascript">
-  	function yesnoCheck(that)
-  {
-      if (that.value == "DVD")
-      {
-          document.getElementById("adc").style.display = "block";
-      }
-      else
-      {
-          document.getElementById("adc").style.display = "none";
-      }
-      if (that.value == "Furniture")
-      {
-          document.getElementById("pc").style.display = "block";
-      }
-      else
-      {
-          document.getElementById("pc").style.display = "none";
-      }
-      if (that.value == "Book")
-      {
-          document.getElementById("ps").style.display = "block";
-      }
-      else
-      {
-          document.getElementById("ps").style.display = "none";
-      }
-  }
-  </script>
+  <hr style="width:100%">
+  </br>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">SKU</label>
+    <div class="col-sm-3">
+      <input name="Sku" type="varchar" class="form-control" id="Sku">
+      <span class = "error" ><?php if(!empty($_GET['skuError'])){echo $_GET['skuError'];}?></span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Name</label>
+    <div class="col-sm-3">
+      <input name="firstName" type="text" class="form-control" id="name">
+      <span class = "error"  ><?php if(!empty($_GET['nameError'])){echo $_GET['nameError'];}?></span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Price ($)</label>
+    <div class="col-sm-3">
+      <input name="Price" type="number" class="form-control" id="price">
+      <span class = "error"  ><?php if(!empty($_GET['priceError'])){echo $_GET['priceError'];}?></span>
+    </div>
+  </div>
+  <div class="dropdown">
+    <label class="col-sm-2 col-form-label"><strong>Type Switcher</strong></label>
+    <select class="dropdown-toggle" type="button" id="productType" name="productType" onchange="getCall(this.value);">
+      <option value="">Select</option>
+      <option value="DVD">DVD</option>
+      <option value="Furniture">Furniture</option>
+      <option value="Book">Book</option>
+    </select>
+  </div><br>
+  <div id="DVD" class="controls" style="display: none;">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Size (MB)</label>
+      <div class="col-sm-2">
+        <input name="Size" type="number" class="form-control" id="size"><br>
+        <strong><?php echo "Please, provide size" ?></strong>
+      </div>
+    </div>
+  </div>
+  <div for="Dimensions" name="dimensions" id="Furniture" class="controls" style="display: none;">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Height (CM)</label>
+      <div class="col-sm-2">
+        <input name="height" type="number" class="form-control" id="height">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Width (CM)</label>
+      <div class="col-sm-2">
+        <input name="width" type="number" class="form-control" id="width">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Length (CM)</label>
+      <div class="col-sm-2">
+        <input name="length" type="number" class="form-control" id="length"><br>
+        <strong><?php echo "Please, provide dimensions" ?></strong>
+      </div><br>
+    </div>
+  </div>
+  <div id="Book" class="controls" style="display: none;">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Weight (CM)</label>
+      <div class="col-sm-2">
+        <input name="Weight" type="number" class="form-control" id="weight"><br>
+        <strong><?php echo "Please, provide weight" ?></strong>
+      </div><br>
+    </div>
+  </div>
+</form></br>
 
 <?php
-  require_once("./templates/footer.php");
+require_once "templates/footer.php"
 ?>
-
-<html>
-
-<head>
-	<style>
-		#footer {
-			position: fixed;
-			padding: 10px 10px 0px 10px;
-			bottom: 0;
-			width: 100%;
-			/* Height of the footer*/
-			height: 40px;
-			background: grey;
-		}
-	</style>
-
-	<head>
-
-		<body>
-			<center>
-				<div id="container">
-
-					<div id="footer">Scandiweb Test assignment
-				</div>
-				</div>
-			</center>
-		</body>
-		<html>
