@@ -5,55 +5,64 @@ include "classes/main.class.php";
 include "classes/disk.class.php";
 include "classes/furniture.class.php";
 include "classes/book.class.php";
-
-// SANATIZE FUNCTION 
-
-function sanatize($data)
-{
-  $data = trim($data);
-  $data = htmlspecialchars($data);
-  $data = stripslashes($data);
-  return $data;
-}
+include "validator.php";
 
 // DATA HANDLING
 
-if (isset($_POST["save"])) {
+$errors = [];
 
-  $InsertData = null;
+if (isset($_POST["productType"]) && isset($_POST["Save"])) {
+
   $productType = $_POST["productType"];
-  $Attribute = "";
+  $sku = $_POST['Sku'];
+  $name = $_POST['Name'];
+  $price = $_POST['Price'];
 
-  if (!empty($productType)) {
+  $validation = new UserValidator($sku, $name, $price, $productType);
+  $errors = $validation->validateForm();
 
+  if (count($errors) <= 0) {
+
+    $productData = null;
+    $attribute = "";
     $availableProducts = ["DVD", "Furniture", "Book"];
 
     if (in_array($productType, $availableProducts)) {
 
-      $InsertData = new $productType(sanatize($_POST['Sku']), sanatize($_POST['firstName']), sanatize($_POST['Price']), sanatize($productType), '');
-      $lisAttribute = $InsertData->getListAttribute();
+      $productData = new $productType($sku, $name, $price, $productType, "");
+      $lisAttributes = $productData->getListAttribute();
 
-      foreach ($lisAttribute as $att) {
-        $Attribute .= isset($_POST[$att]) ? " " . $att . ": " . $_POST[$att]. ", " : "";
+      foreach ($lisAttributes as $att) {
+        $attribute .= isset($_POST[$att]) ? " " . $att . ": " . $_POST[$att] . ", " : "";
       }
 
-      $InsertData->setAttribute(sanatize($Attribute));
+      $productData->setAttribute($validation->sanatize($attribute));
 
-      $InsertData->addPost();
+      $productData->addPost();
 
       header("location:index.php?status=added");
     }
+
+    // VALIDATION
+
+  } else {
+    $error = "";
+    foreach ($errors as $key => $val) {
+      $error .= "&" . $key . "=" . $val;
+    }
+
+    header("location:PAindex.php?status=validated" . $error);
   }
 }
 
 // DELETING DATA
 
 else if (isset($_POST['delete'])) {
-  $InsertData = new ProductMain('', '', '', '', '');
+  $productData = new ProductMain('', '', '', '', '');
   $id = $_POST['ProductID'];
   $N = count($id);
   for ($i = 0; $i < $N; $i++) {
-    $InsertData->delPost($id[$i]);
+    $productData->delPost($id[$i]);
   }
   header("location:index.php?status=deleted");
 }

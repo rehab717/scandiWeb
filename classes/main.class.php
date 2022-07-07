@@ -2,17 +2,12 @@
 
 class ProductMain extends Main
 {
+    // SETTERS FOR MAIN DATA
 
-    function __construct($sku, $name, $price, $productType, $attribute)
+    public function setId($id)
     {
-        $this->Sku = $sku;
-        $this->Name = $name;
-        $this->Price = $price;
-        $this->ProductType = $productType;
-        $this->Attribute = $attribute;
+        $this->Id = $id;
     }
-
-    // SETTERS WITH VALIDATION FOR MAIN DATA
 
     public function setSku($Sku)
     {
@@ -41,6 +36,11 @@ class ProductMain extends Main
 
     // GETTERS FOR MAIN DATA
 
+    public function getId()
+    {
+        return $this->Id;
+    }
+
     public function getSku()
     {
         return $this->Sku;
@@ -48,7 +48,7 @@ class ProductMain extends Main
 
     public function getName()
     {
-        return $this->firstName;
+        return $this->Name;
     }
 
     public function getPrice()
@@ -66,28 +66,41 @@ class ProductMain extends Main
         return $this->Attribute;
     }
 
-    public function getListAttribute(){
-        
+    public function getListAttribute()
+    {
     }
+
+    // **** CRUD OPERATIONS ****
 
     public function addPost()
     {
         $sql = "INSERT INTO pradd2(Sku, Name, Price, ProductType, Attribute) VALUES ('" . $this->Sku . "','" . $this->Name . "','" . $this->Price . "','" . $this->ProductType . "','" . $this->Attribute . "')";
-        $stmt = Dbh::connect()->prepare($sql);
+        $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
     }
 
     // GET FUNCTION
 
-    public function getPost()
+    public function getAllProducts()
     {
         $sql = "SELECT * FROM pradd2";
-        $stmt = Dbh::connect()->prepare($sql);
+        $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
+        $productList = [];
+        $count = 0;
 
-        while ($result = $stmt->fetchAll()) {
-            return $result;
+        while ($result = $stmt->fetch()) {
+            $product = new ProductMain();
+            $product->setId($result['id']);
+            $product->setSku($result['Sku']);
+            $product->setName($result['Name']);
+            $product->setPrice($result['Price']);
+            $product->setAttribute($result['Attribute']);
+            $productList[$count] = $product;
+            $count += 1;
         };
+
+        return $productList;
     }
 
     // DELETE FUNCTION
@@ -95,7 +108,7 @@ class ProductMain extends Main
     public function delPost($id)
     {
         $sql = "DELETE FROM pradd2 WHERE id = ? ";
-        $stmt = Dbh::connect()->prepare($sql);
+        $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$id]);
     }
 }

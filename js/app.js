@@ -1,6 +1,4 @@
 
-// GETS HTML VALUES
-
 function getCall(val) {
     const control = document.getElementById(val);
     const controls = document.getElementsByClassName("controls");

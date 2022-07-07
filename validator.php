@@ -2,34 +2,48 @@
 
 class UserValidator
 {
+  // INITIALISING PROPERTIES
 
-  private $data;
+  private $Sku, $Name, $Price, $ProductType;
   private $errors = [];
-  private static $fields = ['Sku', 'firstName', 'Price'];
 
-  public function __construct($post_data)
+  // CONSTRUCTING PROPERTIES
+
+  public function __construct($sku, $name, $price, $productType)
   {
-    $this->data = $post_data;
+    $this->Sku = $sku;
+    $this->Name = $name;
+    $this->Price = $price;
+    $this->ProductType = $productType;
   }
+
+  // RETURNING ERRORS 
 
   public function validateForm()
   {
-    foreach (self::$fields as $field) {
-      if (!array_key_exists($field, $this->data)) {
-        trigger_error("$field is not present");
-        return;
-      }
-    }
-
     $this->validateSKU();
     $this->validateName();
     $this->validatePrice();
+    $this->validateProductType();
     return $this->errors;
   }
 
+  // SANATIZATION
+
+  public function sanatize($data)
+  {
+    $data = trim($data);
+    $data = htmlspecialchars($data);
+    $data = stripslashes($data);
+    return $data;
+  }
+
+  // VALIDATING SKU
+
   private function validateSKU()
   {
-    $val = trim($this->data['Sku']);
+    $val = ($this->sanatize($this->Sku));
+
     if (empty($val)) {
       $this->addError('Sku', 'Please, submit required data');
     } else {
@@ -39,21 +53,26 @@ class UserValidator
     }
   }
 
+  // VALIDATING NAME
+
   private function validateName()
   {
-    $val = trim($this->data['firstName']);
+    $val = ($this->sanatize($this->Name));
     if (empty($val)) {
-      $this->addError('firstName', 'Please, submit required data');
+      $this->addError('Name', 'Please, submit required data');
     } else {
       if (!preg_match('/^[a-zA-Z -]*$/', $val)) {
-        $this->addError('firstName', 'Please, provide the data of indicated type');
+        $this->addError('Name', 'Please, provide the data of indicated type');
       }
     }
   }
 
+  // VALIDATING PRICE
+
   private function validatePrice()
   {
-    $val = trim($this->data['Price']);
+    $val = ($this->sanatize($this->Price));
+
     if (empty($val)) {
       $this->addError('Price', 'Please, submit required data');
     } else {
@@ -62,6 +81,22 @@ class UserValidator
       }
     }
   }
+
+  // VALIDATING PRODUCTYPE
+
+  public function validateProductType()
+  {
+    $val = ($this->sanatize($this->ProductType));
+    if (empty($val)) {
+      $this->addError('ProductType', 'Please, submit required data');
+    } else {
+      if (!preg_match('/^[a-zA-Z -]*$/', $val)) {
+        $this->addError('ProductType', 'Please, provide the data of indicated type');
+      }
+    }
+  }
+
+  // ADDING ERRORS
 
   private function addError($key, $val)
   {

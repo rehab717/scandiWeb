@@ -1,10 +1,14 @@
 <?php
 
-include "classes/posts.class.php";
+include "classes/dbh.class.php";
 
-abstract class Main
+abstract class Main extends Dbh
 {
-    protected $Sku, $Name, $Price, $ProductType, $Attribute;
+    // ABSTRACT SETTERS AND GETTERS
+
+    protected $Id, $Sku, $Name, $Price, $ProductType, $Attribute;
+
+    abstract function setId($Id);
 
     abstract function setSku($Sku);
 
@@ -15,6 +19,18 @@ abstract class Main
     abstract function setType($productType);
 
     abstract function setAttribute($Attribute);
+
+    abstract function getId();
+
+    abstract function getSku();
+
+    abstract function getName();
+
+    abstract function getPrice();
+
+    abstract function getType();
+
+    abstract function getAttribute();
 
     abstract function getListAttribute();
 }

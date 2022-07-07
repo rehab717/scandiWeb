@@ -1,6 +1,7 @@
 <?php
 require_once "templates/header.php";
-include "classes/posts.class.php";
+include "abstract/base.abstract.php";
+include "classes/main.class.php";
 ?>
 
 <form id="product_form" action="post.process.php" method="POST">
@@ -20,21 +21,19 @@ include "classes/posts.class.php";
      <hr style="width:100%">
      <div class="row">
           <?php
-          $posts = new Posts('','','','','');
-          if ($posts->getPost()) {
-               foreach ($posts->getPost() as $post) {
-                    echo '<div class="col-md-3 mt-4">';
-                    echo '<div class="card">';
-                    echo '<div class="card-body">';
-                    echo '<input class=".delete-checkbox" type="checkbox" name="ProductID[]" value="' . $post['id'] . '" />';
-                    echo "<p id = 'sku' class='text-center' class='card-text'>" . $post['Sku'] . "</p>";
-                    echo "<p id = 'name' class='text-center' class='card-text'>" . $post['Name'] . "</p>";
-                    echo "<p id = 'price' class='text-center' class='card-text'>" . $post['Price'] . " $</p>";
-                    echo "<p id = 'attribute' class='text-center' class='card-text'>" . $post['Attribute'] . "</p>";
-                    echo "</div>";
-                    echo "</div>";
-                    echo "</div>";
-               }
+          $posts = new ProductMain();
+          foreach ($posts->getAllProducts() as $post) {
+               echo '<div class="col-md-3 mt-4">';
+               echo '<div class="card">';
+               echo '<div class="card-body">';
+               echo '<input class=".delete-checkbox" type="checkbox" name="ProductID[]" value="' . $post->getId() . '" />';
+               echo "<p id = 'sku' class='text-center' class='card-text'>" . $post->getSku() . "</p>";
+               echo "<p id = 'name' class='text-center' class='card-text'>" . $post->getName() . "</p>";
+               echo "<p id = 'price' class='text-center' class='card-text'>" . $post->getPrice() . " $</p>";
+               echo "<p id = 'attribute' class='text-center' class='card-text'>" . $post->getAttribute() . "</p>";
+               echo "</div>";
+               echo "</div>";
+               echo "</div>";
           }
           ?>
      </div><br><br>

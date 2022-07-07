@@ -9,10 +9,10 @@ include "post.process.php";
       <h3>PRODUCT ADD</h3>
     </div>
     <div class="col-md-6 text-right">
-      <a href="index.php" class="btn btn-secondary">
+      <a href="index.php" name="Cancel" class="btn btn-secondary">
         CANCEL
       </a>
-      <button type="submit" value="insert" name="save" class="btn btn-primary">
+      <button type="submit" value="insert" name="Save" class="btn btn-primary">
         SAVE
       </Button>
     </div>
@@ -22,32 +22,33 @@ include "post.process.php";
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">SKU</label>
     <div class="col-sm-3">
-      <input name="Sku" type="varchar" class="form-control" id="Sku">
-      <span class = "error" ><?php if(!empty($_GET['skuError'])){echo $_GET['skuError'];}?></span>
+      <input name="Sku" type="varchar" class="form-control" id="sku">
+      <span class="error"><?php echo $_GET['Sku'] ?? '' ?></span>
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-3">
-      <input name="firstName" type="text" class="form-control" id="name">
-      <span class = "error"  ><?php if(!empty($_GET['nameError'])){echo $_GET['nameError'];}?></span>
+      <input name="Name" type="text" class="form-control" id="name">
+      <span class="error"><?php echo $_GET['Name'] ?? '' ?></span>
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Price ($)</label>
     <div class="col-sm-3">
       <input name="Price" type="number" class="form-control" id="price">
-      <span class = "error"  ><?php if(!empty($_GET['priceError'])){echo $_GET['priceError'];}?></span>
+      <span class="error"><?php echo $_GET['Price'] ?? '' ?></span>
     </div>
   </div>
   <div class="dropdown">
     <label class="col-sm-2 col-form-label"><strong>Type Switcher</strong></label>
     <select class="dropdown-toggle" type="button" id="productType" name="productType" onchange="getCall(this.value);">
       <option value="">Select</option>
-      <option value="DVD">DVD</option>
+      <option value="DVD">DVD-Disc</option>
       <option value="Furniture">Furniture</option>
-      <option value="Book">Book</option>
-    </select>
+      <option value="Book">Book</option><br>
+    </select><br><br>
+    <span class="error"><?php echo $_GET['ProductType'] ?? '' ?></span>
   </div><br>
   <div id="DVD" class="controls" style="display: none;">
     <div class="form-group row">
