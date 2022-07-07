@@ -12,7 +12,7 @@ class ProductMain extends Main
         $this->Attribute = $attribute;
     }
 
-    // SETTERS FOR MAIN DATA
+    // SETTERS WITH VALIDATION FOR MAIN DATA
 
     public function setSku($Sku)
     {
@@ -21,7 +21,7 @@ class ProductMain extends Main
 
     public function setName($Name)
     {
-        $this->firstName = $Name;
+        $this->Name = $Name;
     }
 
     public function setPrice($Price)
