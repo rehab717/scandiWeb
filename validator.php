@@ -28,22 +28,11 @@ class UserValidator
     return $this->errors;
   }
 
-  // SANATIZATION
-
-  public function sanatize($data)
-  {
-    $data = trim($data);
-    $data = htmlspecialchars($data);
-    $data = stripslashes($data);
-    return $data;
-  }
-
   // VALIDATING SKU
 
   private function validateSKU()
   {
-    $val = ($this->sanatize($this->Sku));
-
+    $val = $this->Sku;
     if (empty($val)) {
       $this->addError('Sku', 'Please, submit required data');
     } else {
@@ -57,7 +46,7 @@ class UserValidator
 
   private function validateName()
   {
-    $val = ($this->sanatize($this->Name));
+    $val = $this->Name;
     if (empty($val)) {
       $this->addError('Name', 'Please, submit required data');
     } else {
@@ -71,7 +60,7 @@ class UserValidator
 
   private function validatePrice()
   {
-    $val = ($this->sanatize($this->Price));
+    $val = $this->Price;
 
     if (empty($val)) {
       $this->addError('Price', 'Please, submit required data');
@@ -86,7 +75,7 @@ class UserValidator
 
   public function validateProductType()
   {
-    $val = ($this->sanatize($this->ProductType));
+    $val = $this->ProductType;
     if (empty($val)) {
       $this->addError('ProductType', 'Please, submit required data');
     } else {
