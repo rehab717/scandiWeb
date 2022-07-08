@@ -7,6 +7,8 @@ include "classes/furniture.class.php";
 include "classes/book.class.php";
 include "validator.php";
 
+// SANAZTIZING DATA
+
 function sanatize($data)
 {
   $data = trim($data);
