@@ -69,7 +69,7 @@ class ProductMain extends Main
     public function getListAttribute()
     {
     }
-    
+
     // **** CRUD OPERATIONS ****
 
     public function addPost()
