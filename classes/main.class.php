@@ -2,7 +2,7 @@
 
 class ProductMain extends Main
 {
-    // SETTERS FOR MAIN DATA
+    // SETTERS
 
     public function setId($id)
     {
@@ -34,7 +34,7 @@ class ProductMain extends Main
         $this->Attribute = $attribute;
     }
 
-    // GETTERS FOR MAIN DATA
+    // GETTERS
 
     public function getId()
     {

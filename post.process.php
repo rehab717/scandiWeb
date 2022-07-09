@@ -68,7 +68,7 @@ if (isset($_POST["productType"]) && isset($_POST["Save"])) {
 // DELETING DATA
 
 else if (isset($_POST['delete'])) {
-  $productData = new ProductMain('', '', '', '', '');
+  $productData = new ProductMain();
   $id = $_POST['ProductID'];
   $N = count($id);
   for ($i = 0; $i < $N; $i++) {
