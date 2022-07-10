@@ -27,7 +27,7 @@ class UserValidator
     $this->validateProductType();
     return $this->errors;
   }
-
+ 
   // VALIDATING SKU
 
   private function validateSKU()

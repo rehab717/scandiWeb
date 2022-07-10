@@ -13,7 +13,7 @@ include "post.process.php";
         CANCEL
       </a>
       <button type="submit" value="insert" name="Save" class="btn btn-primary">
-        SAVE
+        SAVE 
       </Button>
     </div>
   </div>

@@ -32,7 +32,7 @@ class ProductMain extends Main
     public function setAttribute($attribute)
     {
         $this->Attribute = $attribute;
-    }
+    } 
 
     // GETTERS
 

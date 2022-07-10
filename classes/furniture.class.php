@@ -30,7 +30,7 @@ class Furniture extends ProductMain
 
     $this->Attribute .= $finalStr;
   }
-
+ 
   // GETTER
 
   public function getListAttribute()

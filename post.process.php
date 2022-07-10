@@ -52,7 +52,7 @@ if (isset($_POST["productType"]) && isset($_POST["Save"])) {
 
       header("location:index.php?status=added");
     }
-
+ 
     // VALIDATION
 
   } else {

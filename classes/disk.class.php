@@ -21,7 +21,7 @@ class DVD extends ProductMain
     $removeStr = rtrim($attribute, ",");
     $this->Attribute = $removeStr;
     $this->Attribute .= $addStr;
-  }
+  } 
 
   // GETTER
 

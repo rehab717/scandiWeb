@@ -16,7 +16,7 @@ include "classes/main.class.php";
                <button type="submit" name="delete" class="btn btn-danger">
                     MASS DELETE
                </Button>
-          </div>
+          </div> 
      </div>
      <hr style="width:100%">
      <div class="row">

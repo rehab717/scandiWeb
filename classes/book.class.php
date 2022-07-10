@@ -11,7 +11,7 @@ class Book extends ProductMain
         $this->Price = $price;
         $this->ProductType = $productType;
         $this->Attribute = $attribute;
-    }
+    } 
 
     // SETTER
 

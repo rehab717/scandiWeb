@@ -16,7 +16,7 @@ abstract class Main extends Dbh
 
     abstract function setPrice($Price);
 
-    abstract function setType($productType);
+    abstract function setType($productType); 
 
     abstract function setAttribute($Attribute);
 
