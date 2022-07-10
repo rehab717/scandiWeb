@@ -23,21 +23,21 @@ include "post.process.php";
     <label class="col-sm-2 col-form-label">SKU</label>
     <div class="col-sm-3">
       <input name="Sku" type="varchar" class="form-control" id="sku">
-      <span class="error"><?php echo $_GET['Sku'] ?? '' ?></span>
+      <span class="error"><?= $_GET['Sku'] ?? '' ?></span>
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-3">
       <input name="Name" type="text" class="form-control" id="name">
-      <span class="error"><?php echo $_GET['Name'] ?? '' ?></span>
+      <span class="error"><?= $_GET['Name'] ?? '' ?></span>
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Price ($)</label>
     <div class="col-sm-3">
       <input name="Price" type="number" class="form-control" id="price">
-      <span class="error"><?php echo $_GET['Price'] ?? '' ?></span>
+      <span class="error"><?= $_GET['Price'] ?? '' ?></span>
     </div>
   </div>
   <div class="dropdown">
