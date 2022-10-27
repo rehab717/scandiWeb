@@ -1,6 +1,6 @@
 <?php
 
-class User extends Main
+class User
 {
     public $id;
     public $sku;
