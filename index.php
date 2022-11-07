@@ -4,7 +4,7 @@ require_once "template/header.php";
 
 <?php 
 
-// $users = User::find_by_id(7);
+// $users = User::find_by_id(12);
 // $users->delete();
 
 
@@ -29,7 +29,7 @@ require_once "template/header.php";
                <h3>PRODUCT LIST</h3>
           </div>
           <div class="col-md-6 text-right">
-               <a href="user.php" class="btn btn-primary">
+               <a href="users.php" class="btn btn-primary">
                     ADD
                </a>
                <button type="submit" name="delete" class="btn btn-danger">
@@ -45,7 +45,7 @@ require_once "template/header.php";
           <div class="col-md-3 mt-4">
                <div class="card">
                     <div class="card-body">
-                    <input class=".delete-checkbox" type="checkbox" name="ProductID[]" value=<?php $user->id ?> />
+                    <input class=".delete-checkbox" type="checkbox" name="ProductID[]" value="" />
                          <p id='sku' class='text-center' class='card-text'><?php echo $user->sku ?></p>
                          <p id='name' class='text-center' class='card-text'><?php echo $user->name ?></p>
                          <p id='price' class='text-center' class='card-text'><?php echo $user->price ?></p>

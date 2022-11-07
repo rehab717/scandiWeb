@@ -1,21 +1,9 @@
 <?php
 
-class User
+require_once("abstract/main.abstract.php");
+
+class User extends Main implements Base
 {
-    public $id;
-    public $sku;
-    public $name;
-    public $price;
-    public $type;
-    public $attribute;
-    protected static $db_table = "scandiweb";
-    protected static $db_table_fields = array('id', 'sku', 'name', 'price', 'type', 'attribute');
-
-    // public function __construct($id, $sku, $name, $price, $type, $attribute)
-    // {
-    //     parent::__construct($id, $sku, $name, $price, $type, $attribute);
-    // }
-
     public static function find_all()
     {
         return self::find_by_query("SELECT * FROM " . self::$db_table . " ");
@@ -44,9 +32,7 @@ class User
 
     public static function instantiation($the_record)
     {
-        $calling_class = get_called_class();
-
-        $the_object = new $calling_class;
+        $the_object = new self;
 
         foreach ($the_record as $the_attribute => $value) {
 

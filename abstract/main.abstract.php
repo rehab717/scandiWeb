@@ -1,5 +1,7 @@
 <?php
 
+require_once("interface/base.interface.php");
+
 abstract class Main implements Base
 {
     public $id;
@@ -8,16 +10,18 @@ abstract class Main implements Base
     public $price;
     public $type;
     public $attribute;
+    protected static $db_table = "scandiweb";
+    protected static $db_table_fields = array('id', 'sku', 'name', 'price', 'type', 'attribute');
 
-    public function __construct($id, $sku, $name, $price, $type, $attribute)
-    {
-        $this->id = $id;
-        $this->sku = $sku; 
-        $this->name = $name;
-        $this->price = $price;
-        $this->type = $type;
-        $this->attribute = $attribute;
-    }
+    // public function __construct($id, $sku, $name, $price, $type, $attribute)
+    // {
+    //     $this->id = $id;
+    //     $this->sku = $sku; 
+    //     $this->name = $name;
+    //     $this->price = $price;
+    //     $this->type = $type;
+    //     $this->attribute = $attribute;
+    // }
 
     public function set_id($id) : void
     {
