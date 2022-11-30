@@ -12,9 +12,9 @@
 <body>
     <center>
         <div id="container">
-            <div id="footer"><strong>Scandiweb Test assignment</strong></div>
+            <div id="footer"><strong><i>Scandiweb Test assignment</i></strong></div>
         </div>
     </center>
 </body>
 
-</html> 
+</html>

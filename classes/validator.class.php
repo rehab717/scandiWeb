@@ -1,92 +1,89 @@
 <?php
 
-class UserValidator
+class Validator
 {
-  // INITIALISING PROPERTIES
-
-  private $Sku, $Name, $Price, $ProductType;
+  private $sku, $name, $price, $product_type;
   private $errors = [];
 
-  // CONSTRUCTING PROPERTIES
-
-  public function __construct($sku, $name, $price, $productType)
+  public function __construct($sku, $name, $price, $product_type)
   {
-    $this->Sku = $sku;
-    $this->Name = $name;
-    $this->Price = $price;
-    $this->ProductType = $productType;
+    $this->sku = $sku;
+    $this->name = $name;
+    $this->price = $price;
+    $this->product_type = $product_type;
   }
 
   // RETURNING ERRORS 
 
-  public function validateForm()
+
+  public function validate_form()
   {
-    $this->validateSKU();
-    $this->validateName();
-    $this->validatePrice();
-    $this->validateProductType();
+    $this->validate_sku();
+    $this->validate_name();
+    $this->validate_price();
+    $this->validate_product_type();
     return $this->errors;
   }
- 
+
   // VALIDATING SKU
 
-  private function validateSKU()
+  private function validate_sku()
   {
-    $val = $this->Sku;
+    $val = $this->sku;
     if (empty($val)) {
-      $this->addError('Sku', 'Please, submit required data');
+      $this->add_error('Sku', 'Please, submit required data');
     } else {
       if (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $val)) {
-        $this->addError('Sku', 'Please, provide the data of indicated type');
+        $this->add_error('Sku', 'Please, provide the data of indicated type');
       }
     }
   }
 
   // VALIDATING NAME
 
-  private function validateName()
+  private function validate_name()
   {
-    $val = $this->Name;
+    $val = $this->name;
     if (empty($val)) {
-      $this->addError('Name', 'Please, submit required data');
+      $this->add_error('Name', 'Please, submit required data');
     } else {
       if (!preg_match('/^[a-zA-Z -]*$/', $val)) {
-        $this->addError('Name', 'Please, provide the data of indicated type');
+        $this->add_error('Name', 'Please, provide the data of indicated type');
       }
     }
   }
 
   // VALIDATING PRICE
 
-  private function validatePrice()
+  private function validate_price()
   {
-    $val = $this->Price;
+    $val = $this->price;
     if (empty($val)) {
-      $this->addError('Price', 'Please, submit required data');
+      $this->add_error('Price', 'Please, submit required data');
     } else {
       if (!preg_match('/^[0-9]*$/', $val)) {
-        $this->addError('Price', 'Please, provide the data of indicated type');
+        $this->add_error('Price', 'Please, provide the data of indicated type');
       }
     }
   }
 
   // VALIDATING PRODUCTYPE
 
-  public function validateProductType()
+  private function validate_product_type()
   {
-    $val = $this->ProductType;
+    $val = $this->product_type;
     if (empty($val)) {
-      $this->addError('ProductType', 'Please, submit required data');
+      $this->add_error('ProductType', 'Please, submit required data');
     } else {
       if (!preg_match('/^[a-zA-Z -]*$/', $val)) {
-        $this->addError('ProductType', 'Please, provide the data of indicated type');
+        $this->add_error('ProductType', 'Please, provide the data of indicated type');
       }
     }
   }
 
   // ADDING ERRORS
 
-  private function addError($key, $val)
+  private function add_error($key, $val)
   {
     $this->errors[$key] = $val;
   }

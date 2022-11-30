@@ -2,27 +2,33 @@
 
 interface Base
 {
-    public function set_id($id) : void;
+    // SETTERS
 
-    public function set_sku($sku) : void;
+    public function set_id($id);
 
-    public function set_name($name) : void;
+    public function set_sku($sku);
 
-    public function set_price($price) : void;
+    public function set_name($name);
 
-    public function set_type($type) : void;
-    
-    public function set_attribute($attribute) : void;
+    public function set_price($price);
 
-    public function get_id() : string;
+    public function set_type($type);
 
-    public function get_sku() : string;
+    public function set_attribute($attribute);
 
-    public function get_name() : string;
+    // GETTERS
 
-    public function get_price() : string;
+    public function get_id();
 
-    public function get_type() : string;
+    public function get_sku();
 
-    public function get_attribute() : string;
+    public function get_name();
+
+    public function get_price();
+
+    public function get_type();
+
+    public function get_attribute();
+
+    public function get_list_attribute();
 }

@@ -4,82 +4,76 @@ require_once("interface/base.interface.php");
 
 abstract class Main implements Base
 {
-    public $id;
-    public $sku;
-    public $name;
-    public $price;
-    public $type;
-    public $attribute;
+    public $id, $sku, $name, $price, $type, $attribute;
+
     protected static $db_table = "scandiweb";
     protected static $db_table_fields = array('id', 'sku', 'name', 'price', 'type', 'attribute');
 
-    // public function __construct($id, $sku, $name, $price, $type, $attribute)
-    // {
-    //     $this->id = $id;
-    //     $this->sku = $sku; 
-    //     $this->name = $name;
-    //     $this->price = $price;
-    //     $this->type = $type;
-    //     $this->attribute = $attribute;
-    // }
+    // SETTERS
 
-    public function set_id($id) : void
+    public function set_id($id)
     {
         $this->id = $id;
     }
 
-    public function set_sku($sku) : void
+    public function set_sku($sku)
     {
         $this->sku = $sku;
     }
 
-    public function set_name($name) : void 
+    public function set_name($name)
     {
         $this->name = $name;
     }
 
-    public function set_price($price) : void
+    public function set_price($price)
     {
         $this->price = $price;
     }
 
-    public function set_type($type) : void
+    public function set_type($type)
     {
         $this->type = $type;
     }
 
-    public function set_attribute($attribute) : void
+    public function set_attribute($attribute)
     {
-        $this->attribute - $attribute;
+        $this->attribute = $attribute;
     }
 
-    public function get_id() : string
+    // GETTERS
+
+    public function get_id()
     {
         return $this->id;
     }
 
-    public function get_sku() : string
+    public function get_sku()
     {
         return $this->sku;
     }
 
-    public function get_name() : string
+    public function get_name()
     {
         return $this->name;
     }
 
-    public function get_price() : string
+    public function get_price()
     {
         return $this->price;
     }
 
-    public function get_type() : string
+    public function get_type()
     {
         return $this->type;
     }
 
-    public function get_attribute(): string
+    public function get_attribute()
     {
         return $this->attribute;
+    }
+
+    public function get_list_attribute()
+    {
     }
 }

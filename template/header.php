@@ -25,6 +25,6 @@ require_once "classes/init.class.php";
   <title>Scandiweb test Assignment</title>
 
 </head>
- 
+
 <body>
   <div class="container">

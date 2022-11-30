@@ -2,8 +2,10 @@
 
 require_once("config.class.php");
 
-class Database 
+class Database
 {
+    // INITIATING DATABASE CONNECTION
+
     public $connection;
 
     public function __construct()
@@ -23,25 +25,15 @@ class Database
         return $result;
     }
 
-    public function confirm_query($result)
-    {
-        if ($result)
-        {
-            die("query failed" . $this->connection->error);
-        }   
-    }
-
-
     public function escape_string($string)
     {
         return $this->connection->real_escape_string($string);
     }
 
-    public function the_insert_id()
+    public function insert_id()
     {
         return $this->connection->insert_id;
     }
-
 }
 
 $database = new Database();

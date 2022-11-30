@@ -2,12 +2,16 @@
 
 require_once("abstract/main.abstract.php");
 
-class User extends Main implements Base
+class Product extends Main
 {
+    // FINDING ALL PRODUCTS
+
     public static function find_all()
     {
         return self::find_by_query("SELECT * FROM " . self::$db_table . " ");
     }
+
+    // FINDING PRODUCT BY ID
 
     public static function find_by_id($id)
     {
@@ -16,40 +20,35 @@ class User extends Main implements Base
         return !empty($result_array) ? array_shift($result_array) : false;
     }
 
+    // INSTANTIATING PRODUCTS
+
     public static function find_by_query($sql)
     {
         global $database;
 
         $result_set = $database->query($sql);
+
         $object_array = array();
+        $count = 0;
 
         while ($row = mysqli_fetch_array($result_set)) {
-            $object_array[] = self::instantiation($row);
+
+            $product = new self;
+            $product->set_id($row['id']);
+            $product->set_sku($row['sku']);
+            $product->set_name($row['name']);
+            $product->set_price($row['price']);
+            $product->set_type($row['type']);
+            $product->set_attribute($row['attribute']);
+
+            $object_array[$count] = $product;
+            $count += 1;
         }
 
         return $object_array;
     }
 
-    public static function instantiation($the_record)
-    {
-        $the_object = new self;
-
-        foreach ($the_record as $the_attribute => $value) {
-
-            if ($the_object->has_the_attribute($the_attribute)) {
-                $the_object->$the_attribute = $value;
-            }
-        }
-
-        return $the_object;
-    }
-
-    private function has_the_attribute($the_attribute)
-    {
-        $object_properties = get_object_vars($this);
-
-        return array_key_exists($the_attribute, $object_properties);
-    }
+    // LOOPING THROUGH PROPERTIES
 
     protected function properties()
     {
@@ -61,6 +60,8 @@ class User extends Main implements Base
 
         return $properties;
     }
+
+    // SANATIZING PROPERTIES
 
     protected function clean_properties()
     {
@@ -75,56 +76,45 @@ class User extends Main implements Base
         return $clean_properties;
     }
 
+    // CREATING DATA
+
     public function create()
     {
         global $database;
+
         $properties = $this->clean_properties();
 
         $sql = "INSERT INTO " . self::$db_table . "(" . implode(",", array_keys($properties)) . ")";
         $sql .= "VALUES ('" . implode("','", array_values($properties)) . "')";
 
-        if ($database->query($sql)){
+        if ($database->query($sql)) {
 
-            $this->id = $database->the_insert_id();
+            $this->id = $database->insert_id();
 
             return true;
-
         } else {
 
             return false;
-
         }
     }
 
-    public function delete()
+    // DELETING DATA
+
+    public function delete($id)
     {
         global $database;
 
-        $sql = "DELETE FROM " . self::$db_table . "  ";
-        $sql .= "WHERE id=" . $database->escape_string($this->id);
-        $sql .= " LIMIT 1";
+        if (isset($_POST['ProductID'])) {
 
-        $database->query($sql);
+            $arr = $_POST['ProductID'];
 
-        return (mysqli_affected_rows($database->connection) == 1) ? true : false;
-    }
+            foreach ($arr as $id) {
 
-    public function update()
-    {
-        global $database;
-        $properties = $this->clean_properties();
-        $properties_pairs = array();
+                $sql = "DELETE FROM " . self::$db_table . "  ";
+                $sql .= "WHERE id = " . $database->escape_string($id);
 
-        foreach ($properties as $key => $value) {
-            $properties_pairs[] = "{$key}='{$value}'";
+                $database->query($sql);
+            }
         }
-
-        $sql = "UPDATE " . self::$db_table . " SET ";
-        $sql .= implode(", ", $properties_pairs);
-        $sql .= "WHERE id=" . $database->escape_string($this->id);
-
-        $database->query($sql);
-
-        return (mysqli_affected_rows($database->connection) == 1) ? true : false;
     }
 }
